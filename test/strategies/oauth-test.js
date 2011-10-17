@@ -364,4 +364,18 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy constructed without a verify callback': {
+    'should throw an error': function (strategy) {
+      assert.throws(function() {
+        new OAuthStrategy({
+            requestTokenURL: 'https://www.example.com/oauth/request_token',
+            accessTokenURL: 'https://www.example.com/oauth/access_token',
+            userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+            consumerKey: 'ABC123',
+            consumerSecret: 'secret'
+        });
+      });
+    },
+  },
+  
 }).export(module);
