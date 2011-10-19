@@ -678,4 +678,45 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  'strategy handling a request that has been denied': {
+    topic: function() {
+      var strategy = new OAuth2Strategy({
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret',
+          callbackURL: 'https://www.example.net/auth/example/callback'
+        },
+        function(accessToken, refreshToken, profile, done) {}
+      );
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(null, req);
+        }
+        
+        req.query = {};
+        req.query.error = 'access_denied';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should call fail' : function(err, req) {
+        assert.isNotNull(req);
+      },
+    },
+  },
+  
 }).export(module);
