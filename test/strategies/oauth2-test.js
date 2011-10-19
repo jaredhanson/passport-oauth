@@ -231,7 +231,7 @@ vows.describe('OAuth2Strategy').addBatch({
           tokenURL: 'https://www.example.com/oauth2/token',
           clientID: 'ABC123',
           clientSecret: 'secret',
-          callbackURL: 'https://www.example.net/auth/oauth2/callback'
+          callbackURL: 'https://www.example.net/auth/example/callback'
         },
         function(accessToken, refreshToken, profile, done) {}
       );
@@ -264,7 +264,7 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.isNull(err);
       },
       'should redirect to user authorization URL' : function(err, req) {
-        assert.equal(req.redirectURL, 'https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Foauth2%2Fcallback&client_id=ABC123&type=web_server');
+        assert.equal(req.redirectURL, 'https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Fcallback&client_id=ABC123&type=web_server');
       },
     },
   },
