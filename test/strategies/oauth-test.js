@@ -197,6 +197,471 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy handling an authorized request should load user profile by default': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should provide profile' : function(err, req) {
+        assert.equal(req.profile.location, 'Oakland, CA');
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request should not load user profile when option is disabled': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          skipUserProfile: true
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should not provide profile' : function(err, req) {
+        assert.isUndefined(req.profile);
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request should load user profile when function synchronously returns false': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          skipUserProfile: function() {
+            return false;
+          }
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should provide profile' : function(err, req) {
+        assert.equal(req.profile.location, 'Oakland, CA');
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request should not load user profile when function synchronously returns true': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          skipUserProfile: function() {
+            return true;
+          }
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should not provide profile' : function(err, req) {
+        assert.isUndefined(req.profile);
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request should load user profile when function asynchronously returns false': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          skipUserProfile: function(token, tokenSecret, done) {
+            done(null, false);
+          }
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should provide profile' : function(err, req) {
+        assert.equal(req.profile.location, 'Oakland, CA');
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request should load user profile when function asynchronously returns true': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          skipUserProfile: function(token, tokenSecret, done) {
+            done(null, true);
+          }
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(null, { username: 'jaredhanson', location: 'Oakland, CA' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          req.user = user;
+          req.profile = profile;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should not provide profile' : function(err, req) {
+        assert.isUndefined(req.profile);
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request that fails to load user profile': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function(token, tokenSecret, info, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      strategy.userProfile = function(token, tokenSecret, params, done) {
+        done(new Error('something-went-wrong'));
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user, profile) {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.error = function(err) {
+          self.callback(null, req);
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should call error' : function(err, req) {
+        assert.isNotNull(req);
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
   'strategy handling an authorized request that fails to obtain an access token': {
     topic: function() {
       var strategy = new OAuthStrategy({
