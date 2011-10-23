@@ -2,6 +2,23 @@
 
 General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport](https://github.com/jaredhanson/passport).
 
+## Installation
+
+    $ npm install passport-oauth
+
+## Strategies using OAuth
+
+<table>
+  <thead>
+    <tr><th>Strategy</th><th>Description</th>
+  </thead>
+  <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/passport-facebook">Facebook</a></td><td>Facebook authentication strategy.</td>
+    <tr><td><a href="https://github.com/jaredhanson/passport-twitter">Twitter</a></td><td>Twitter authentication strategy.</td>
+    <tr><td><a href="https://github.com/jaredhanson/passport-foursquare">Foursquare</a></td><td>Foursquare authentication strategy.</td>
+  </tbody>
+</table>
+
 ## License
 
 (The MIT License)
