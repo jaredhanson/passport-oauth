@@ -774,6 +774,60 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy handling a request to be redirected to a URL with query parameters after obtaining a request token': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize?foo=bar',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function() {}
+      );
+      
+      // mock
+      strategy._oauth.getOAuthRequestToken = function(callback) {
+        callback(null, 'token', 'token-secret', {});
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.redirect = function(url) {
+          req.redirectURL = url;
+          self.callback(null, req);
+        }
+        
+        req.session = {};
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should redirect to user authorization URL' : function(err, req) {
+        assert.equal(req.redirectURL, 'https://www.example.com/oauth/authorize?foo=bar&oauth_token=token');
+      },
+      'should store token and token secret in session' : function(err, req) {
+        assert.equal(req.session['oauth']['oauth_token'], 'token');
+        assert.equal(req.session['oauth']['oauth_token_secret'], 'token-secret');
+      },
+    },
+  },
+  
   'strategy handling a request that fails to obtain a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
