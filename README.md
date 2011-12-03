@@ -21,7 +21,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-github">GitHub</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-gowalla">Gowalla</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-instagram">Instagram</a></td><td>2.0</td></tr>
-    <tr><td><a href="https://github.com/jaredhanson/passport-justintv">Justin.tv</a></td><td>1.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-justintv">Justin.tv</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-linkedin">LinkedIn</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-meetup">Meetup</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-netflix">Netflix</a></td><td>1.0a</td></tr>
