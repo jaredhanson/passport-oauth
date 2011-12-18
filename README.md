@@ -13,10 +13,14 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><th>Strategy</th><th>OAuth Version</th>
   </thead>
   <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/passport-angellist">AngelList</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-digg">Digg</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dropbox">Dropbox</a></td><td>1.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-dwolla">Dwolla</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-evernote">Evernote</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-facebook">Facebook</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-fitbit">Fitbit</a></td><td>1.0a</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-flickr">Flickr</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-foursquare">Foursquare</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-github">GitHub</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-gowalla">Gowalla</a></td><td>2.0</td></tr>
@@ -29,6 +33,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-rdio">Rdio</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-readability">Readability</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-runkeeper">RunKeeper</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-smugmug">SmugMug</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-soundcloud">SoundCloud</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-tripit">TripIt</a></td><td>1.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-tumblr">Tumblr</a></td><td>1.0a</td></tr>
