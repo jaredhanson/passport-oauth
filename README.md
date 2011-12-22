@@ -40,6 +40,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-tumblr">Tumblr</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-twitter">Twitter</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-vimeo">Vimeo</a></td><td>1.0a</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-windowslive">Windows Live</a></td><td>2.0</td></tr>
   </tbody>
 </table>
 
