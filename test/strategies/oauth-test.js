@@ -733,7 +733,7 @@ vows.describe('OAuthStrategy').addBatch({
       );
       
       // mock
-      strategy._oauth.getOAuthRequestToken = function(callback) {
+      strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(null, 'token', 'token-secret', {});
       }
       
@@ -787,7 +787,7 @@ vows.describe('OAuthStrategy').addBatch({
       );
       
       // mock
-      strategy._oauth.getOAuthRequestToken = function(callback) {
+      strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(null, 'token', 'token-secret', {});
       }
       
@@ -828,6 +828,132 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy handling a request to be redirected after obtaining a request token without extra params': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function() {}
+      );
+      
+      // mock
+      strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+        if (Object.keys(extraParams).length == 0) {
+          callback(null, 'token', 'token-secret', {});
+        } else {
+          callback(new Error('something went wrong'));
+        }
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.redirect = function(url) {
+          req.redirectURL = url;
+          self.callback(null, req);
+        }
+        strategy.error = function(err) {
+          self.callback(err);
+        }
+        
+        req.session = {};
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should redirect to user authorization URL' : function(err, req) {
+        assert.equal(req.redirectURL, 'https://www.example.com/oauth/authorize?oauth_token=token');
+      },
+      'should store token and token secret in session' : function(err, req) {
+        assert.equal(req.session['oauth']['oauth_token'], 'token');
+        assert.equal(req.session['oauth']['oauth_token_secret'], 'token-secret');
+      },
+    },
+  },
+  
+  'strategy handling a request to be redirected after obtaining a request token with extra params': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function() {}
+      );
+      
+      // mock
+      strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+        if (Object.keys(extraParams).length == 1) {
+          callback(null, 'token_' + extraParams.scope, 'token-secret', {});
+        } else {
+          callback(new Error('something went wrong'));
+        }
+      }
+      
+      strategy.requestTokenParams = function(options) {
+        return { scope: options.scope };
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.redirect = function(url) {
+          req.redirectURL = url;
+          self.callback(null, req);
+        }
+        strategy.error = function(err) {
+          self.callback(err);
+        }
+        
+        req.session = {};
+        process.nextTick(function () {
+          strategy.authenticate(req, { scope: 'foo' });
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should redirect to user authorization URL' : function(err, req) {
+        assert.equal(req.redirectURL, 'https://www.example.com/oauth/authorize?oauth_token=token_foo');
+      },
+      'should store token and token secret in session' : function(err, req) {
+        assert.equal(req.session['oauth']['oauth_token'], 'token_foo');
+        assert.equal(req.session['oauth']['oauth_token_secret'], 'token-secret');
+      },
+    },
+  },
+  
   'strategy handling a request that fails to obtain a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -841,7 +967,7 @@ vows.describe('OAuthStrategy').addBatch({
       );
       
       // mock
-      strategy._oauth.getOAuthRequestToken = function(callback) {
+      strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(new Error('something-went-wrong'));
       }
       
