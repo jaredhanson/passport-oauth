@@ -9,8 +9,11 @@
   },
   "main": "./lib/passport-oauth",
   "dependencies": {
-    "passport": ">= 0.1.1",
-    "oauth": ">= 0.9.5"
+    "passport": "~0.1.1",
+    "oauth": "0.9.x"
+  },
+  "devDependencies": {
+    "vows": "0.6.x"
   },
   "engines": { "node": ">= 0.4.0" },
   "keywords": ["passport", "oauth", "auth", "authn", "authentication"]
