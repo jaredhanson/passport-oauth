@@ -13,6 +13,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><th>Strategy</th><th>OAuth Version</th>
   </thead>
   <tbody>
+    <tr><td><a href="https://github.com/jaredhanson/passport-37signals">37signals</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-angellist">AngelList</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-digg">Digg</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dropbox">Dropbox</a></td><td>1.0</td></tr>
@@ -22,14 +23,18 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-fitbit">Fitbit</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-flickr">Flickr</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-foursquare">Foursquare</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-geoloqi">Geoloqi</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-github">GitHub</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-goodreads">Goodreads</a></td><td>1.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-google-oauth">Google</a></td><td>1.0a, 2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-gowalla">Gowalla</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-instagram">Instagram</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-justintv">Justin.tv</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-linkedin">LinkedIn</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-meetup">Meetup</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-netflix">Netflix</a></td><td>1.0a</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-ohloh">Ohloh</a></td><td>1.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-ohloh">OpenStreetMap</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-picplz">picplz</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-rdio">Rdio</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-readability">Readability</a></td><td>1.0a</td></tr>
@@ -41,8 +46,18 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-twitter">Twitter</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-vimeo">Vimeo</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-windowslive">Windows Live</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-yammer">Yammer</a></td><td>2.0</td></tr>
   </tbody>
 </table>
+
+## Tests
+
+    $ npm install --dev
+    $ make test
+
+## Credits
+
+  - [Jared Hanson](http://github.com/jaredhanson)
 
 ## License
 
