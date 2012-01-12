@@ -2,10 +2,13 @@
   "name": "passport-oauth",
   "version": "0.1.2",
   "description": "OAuth 1.0 and 2.0 authentication strategies for Passport.",
-  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
+  "author": { "name": "Jared Hanson", "email": "jaredhanson@gmail.com", "url": "http://www.jaredhanson.net/" },
   "repository": {
     "type": "git",
-    "url": "http://github.com/jaredhanson/passport-oauth.git"
+    "url": "git://github.com/jaredhanson/passport-oauth.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jaredhanson/passport-oauth/issues"
   },
   "main": "./lib/passport-oauth",
   "dependencies": {
@@ -17,5 +20,9 @@
     "vows": "0.6.x"
   },
   "engines": { "node": ">= 0.4.0" },
+  "licenses": [ {
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/MIT" 
+  } ],
   "keywords": ["passport", "oauth", "auth", "authn", "authentication"]
 }
