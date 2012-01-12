@@ -34,7 +34,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-meetup">Meetup</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-netflix">Netflix</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-ohloh">Ohloh</a></td><td>1.0</td></tr>
-    <tr><td><a href="https://github.com/jaredhanson/passport-ohloh">OpenStreetMap</a></td><td>1.0a</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-openstreetmap">OpenStreetMap</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-picplz">picplz</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-rdio">Rdio</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-readability">Readability</a></td><td>1.0a</td></tr>
