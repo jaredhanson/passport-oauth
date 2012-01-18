@@ -15,6 +15,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
   <tbody>
     <tr><td><a href="https://github.com/jaredhanson/passport-37signals">37signals</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-angellist">AngelList</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-bitbucket">Bitbucket</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-digg">Digg</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dropbox">Dropbox</a></td><td>1.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dwolla">Dwolla</a></td><td>2.0</td></tr>
@@ -46,6 +47,7 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     <tr><td><a href="https://github.com/jaredhanson/passport-twitter">Twitter</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-vimeo">Vimeo</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-windowslive">Windows Live</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/jaredhanson/passport-yahoo-oauth">Yahoo!</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-yammer">Yammer</a></td><td>2.0</td></tr>
   </tbody>
 </table>
