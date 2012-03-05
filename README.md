@@ -57,6 +57,8 @@ General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport]
     $ npm install --dev
     $ make test
 
+[![Build Status](https://secure.travis-ci.org/jaredhanson/passport-oauth.png)](http://travis-ci.org/jaredhanson/passport-oauth)
+
 ## Credits
 
   - [Jared Hanson](http://github.com/jaredhanson)
