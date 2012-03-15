@@ -122,6 +122,58 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  'strategy handling an authorized request that is not verified with additional info': {
+    topic: function() {
+      var strategy = new OAuth2Strategy({
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret'
+        },
+        function(accessToken, refreshToken, profile, done) {
+          done(null, false, { message: 'Invite required' });
+        }
+      );
+      
+      // mock
+      strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
+        callback(null, 'token', 'refresh-token');
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function(info) {
+          self.callback(null, req, info);
+        }
+        
+        req.query = {};
+        req.query.code = 'authorization-code'
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should call fail' : function(err, req) {
+        assert.isNotNull(req);
+      },
+      'should pass additional info' : function(err, req, info) {
+        assert.equal(info.message, 'Invite required');
+      },
+    },
+  },
+  
   'strategy handling an authorized request that encounters an error during verification': {
     topic: function() {
       var strategy = new OAuth2Strategy({
