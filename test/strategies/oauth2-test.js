@@ -183,7 +183,7 @@ vows.describe('OAuth2Strategy').addBatch({
           clientSecret: 'secret'
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -202,10 +202,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -225,8 +224,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
     },
   },
@@ -241,7 +240,7 @@ vows.describe('OAuth2Strategy').addBatch({
           skipUserProfile: true
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -260,10 +259,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -283,8 +281,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
     },
   },
@@ -301,7 +299,7 @@ vows.describe('OAuth2Strategy').addBatch({
           }
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -320,10 +318,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -343,8 +340,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
     },
   },
@@ -361,7 +358,7 @@ vows.describe('OAuth2Strategy').addBatch({
           }
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -380,10 +377,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -403,8 +399,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
     },
   },
@@ -421,7 +417,7 @@ vows.describe('OAuth2Strategy').addBatch({
           }
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -440,10 +436,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -463,8 +458,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
     },
   },
@@ -481,7 +476,7 @@ vows.describe('OAuth2Strategy').addBatch({
           }
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -500,10 +495,9 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -523,8 +517,8 @@ vows.describe('OAuth2Strategy').addBatch({
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
     },
   },
@@ -538,7 +532,7 @@ vows.describe('OAuth2Strategy').addBatch({
           clientSecret: 'secret'
         },
         function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+          done(null, { accessToken: accessToken, refreshToken: refreshToken }, profile);
         }
       );
       
@@ -557,7 +551,7 @@ vows.describe('OAuth2Strategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           self.callback(new Error('should-not-be-called'));
         }
         strategy.fail = function() {
