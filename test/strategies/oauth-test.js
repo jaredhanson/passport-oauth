@@ -33,7 +33,7 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, info, done) {
+        function(token, tokenSecret, profile, done) {
           done(null, { token: token, tokenSecret: tokenSecret });
         }
       );
@@ -91,7 +91,7 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, info, done) {
+        function(token, tokenSecret, profile, done) {
           done(null, false);
         }
       );
@@ -147,7 +147,7 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, info, done) {
+        function(token, tokenSecret, profile, done) {
           done(new Error('something-went-wrong'));
         }
       );
@@ -206,8 +206,8 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -226,10 +226,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -253,8 +252,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -272,8 +271,8 @@ vows.describe('OAuthStrategy').addBatch({
           consumerSecret: 'secret',
           skipUserProfile: true
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -292,10 +291,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -319,8 +317,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -340,8 +338,8 @@ vows.describe('OAuthStrategy').addBatch({
             return false;
           }
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -360,10 +358,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -387,8 +384,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -408,8 +405,8 @@ vows.describe('OAuthStrategy').addBatch({
             return true;
           }
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -428,10 +425,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -455,8 +451,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -476,8 +472,8 @@ vows.describe('OAuthStrategy').addBatch({
             done(null, false);
           }
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -496,10 +492,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -523,8 +518,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should provide profile' : function(err, req) {
-        assert.equal(req.profile.location, 'Oakland, CA');
+      'should provide profile' : function(err, req, profile) {
+        assert.equal(profile.location, 'Oakland, CA');
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -544,8 +539,8 @@ vows.describe('OAuthStrategy').addBatch({
             done(null, true);
           }
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -564,10 +559,9 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           req.user = user;
-          req.profile = profile;
-          self.callback(null, req);
+          self.callback(null, req, info);
         }
         strategy.fail = function() {
           self.callback(new Error('should-not-be-called'));
@@ -591,8 +585,8 @@ vows.describe('OAuthStrategy').addBatch({
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
       },
-      'should not provide profile' : function(err, req) {
-        assert.isUndefined(req.profile);
+      'should not provide profile' : function(err, req, profile) {
+        assert.isUndefined(profile);
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
@@ -609,8 +603,8 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, info, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret }, profile);
         }
       );
       
@@ -629,7 +623,7 @@ vows.describe('OAuthStrategy').addBatch({
       topic: function(strategy) {
         var self = this;
         var req = {};
-        strategy.success = function(user, profile) {
+        strategy.success = function(user, info) {
           self.callback(new Error('should-not-be-called'));
         }
         strategy.fail = function() {
