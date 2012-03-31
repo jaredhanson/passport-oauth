@@ -724,7 +724,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
-  'strategy handling a request to be redirected to a path for authorization': {
+  'strategy handling an encrypted request from behind a proxy to be redirected to a path for authorization': {
     topic: function() {
       var strategy = new OAuth2Strategy({
           authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -744,6 +744,7 @@ vows.describe('OAuth2Strategy').addBatch({
         var self = this;
         var req = {
           connection: {},
+          url: '/auth/example',
           headers: {
             'host': 'www.example.net',
             'x-forwarded-proto': 'https'
