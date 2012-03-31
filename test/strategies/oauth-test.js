@@ -773,6 +773,64 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy handling an authorized request that lacks request token in session': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function(token, tokenSecret, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', {});
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.error = function(err) {
+          self.callback(null, req, err);
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        //req.session['oauth'] = {};
+        //req.session['oauth']['oauth_token'] = 'token';
+        //req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should call error' : function(err, req, e) {
+        assert.isNotNull(req);
+        assert.instanceOf(e, Error);
+      },
+    },
+  },
+  
   'strategy handling a request to be redirected after obtaining a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
