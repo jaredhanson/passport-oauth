@@ -2,6 +2,22 @@
 
 General-purpose OAuth 1.0 and OAuth 2.0 authentication strategies for [Passport](https://github.com/jaredhanson/passport).
 
+This module lets you authenticate using OAuth in your Node.js applications.
+By plugging into Passport, OAuth authentication can be easily and unobtrusively
+integrated into any application or framework that supports
+[Connect](http://www.senchalabs.org/connect/)-style middleware, including
+[Express](http://expressjs.com/).
+
+Note that this strategy provides generic OAuth support.  In many cases, a
+provider-specific strategy can be used instead, which cuts down on unnecessary
+configuration, and accommodates any provider-specific quirks.  See the list
+below for supported providers.
+
+Developers who need to implement authentication against an OAuth provider that
+is not already supported are encouraged to sub-class this strategy.  If you
+choose to open source the new provider-specific strategy, send me a message and
+I will update the list.
+
 ## Installation
 
     $ npm install passport-oauth
