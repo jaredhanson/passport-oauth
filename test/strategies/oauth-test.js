@@ -1197,4 +1197,31 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy constructed without a consumerSecret': {
+    'should throw an error': function (strategy) {
+      assert.throws(function() {
+        new OAuthStrategy({
+            requestTokenURL: 'https://www.example.com/oauth/request_token',
+            accessTokenURL: 'https://www.example.com/oauth/access_token',
+            userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+            consumerKey: 'ABC123'
+        }, function() {});
+      });
+    },
+  },
+  
+  'strategy constructed with an empty consumerSecret': {
+    'should throw an error': function (strategy) {
+      assert.doesNotThrow(function() {
+        new OAuthStrategy({
+            requestTokenURL: 'https://www.example.com/oauth/request_token',
+            accessTokenURL: 'https://www.example.com/oauth/access_token',
+            userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+            consumerKey: 'ABC123',
+            consumerSecret: ''
+        }, function() {});
+      });
+    },
+  },
+  
 }).export(module);
