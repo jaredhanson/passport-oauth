@@ -32,17 +32,17 @@ vows.describe('OAuth2Strategy').addBatch({
           clientSecret: 'secret',
           callbackURL: 'https://www.example.net/auth/example/callback',
         },
-        function(accessToken, refreshToken, profile, done) {
-          done(null, { accessToken: accessToken, refreshToken: refreshToken });
+        function(accessToken, refreshToken, profile, done, result) {
+          done(null, { accessToken: accessToken, refreshToken: refreshToken, expiresIn: result.expires_in });
         }
       );
       
       // mock
       strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
         if (options.redirect_uri == 'https://www.example.net/auth/example/callback')  {
-          callback(null, 'token', 'refresh-token');
+          callback(null, 'token', 'refresh-token', { acccess_token: 'token', refresh_token: 'refresh-token', expires_in: 3600 });
         } else {
-          callback(null, 'bad', 'really-bad');
+          callback(null, 'bad', 'really-bad', {});
         }
       }
       
@@ -74,6 +74,7 @@ vows.describe('OAuth2Strategy').addBatch({
       'should authenticate' : function(err, req) {
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
+        assert.equal(req.user.expiresIn, 3600);
       },
     },
   },

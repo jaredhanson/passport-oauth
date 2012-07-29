@@ -33,14 +33,14 @@ vows.describe('OAuthStrategy').addBatch({
           consumerKey: 'ABC123',
           consumerSecret: 'secret'
         },
-        function(token, tokenSecret, profile, done) {
-          done(null, { token: token, tokenSecret: tokenSecret });
+        function(token, tokenSecret, profile, done, result) {
+          done(null, { token: token, tokenSecret: tokenSecret, expiresIn: result.expires_in });
         }
       );
       
       // mock
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
-        callback(null, 'access-token', 'access-token-secret', {});
+        callback(null, 'access-token', 'access-token-secret', { expires_in: 7200 });
       }
       
       return strategy;
@@ -75,6 +75,7 @@ vows.describe('OAuthStrategy').addBatch({
       'should authenticate' : function(err, req) {
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
+        assert.equal(req.user.expiresIn, 7200);
       },
       'should remove token and token secret from session' : function(err, req) {
         assert.isUndefined(req.session['oauth']);
