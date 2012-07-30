@@ -1317,6 +1317,52 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  'strategy handling a request to be redirected for authorization with a scope specified as strategy option': {
+    topic: function() {
+      var strategy = new OAuth2Strategy({
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret',
+          callbackURL: 'https://www.example.net/auth/example/callback',
+          scope: 'permission'
+        },
+        function(accessToken, refreshToken, profile, done) {}
+      );
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        strategy.redirect = function(url) {
+          req.redirectURL = url;
+          self.callback(null, req);
+        }
+        
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call success or fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should redirect to user authorization URL' : function(err, req) {
+        assert.equal(req.redirectURL, 'https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Fcallback&scope=permission&client_id=ABC123&type=web_server');
+      },
+    },
+  },
+  
   'strategy handling a request to be redirected for authorization with state': {
     topic: function() {
       var strategy = new OAuth2Strategy({
