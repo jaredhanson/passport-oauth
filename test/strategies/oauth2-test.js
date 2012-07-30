@@ -78,6 +78,62 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  'strategy handling an authorized request with params argument to callback': {
+    topic: function() {
+      var strategy = new OAuth2Strategy({
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret',
+          callbackURL: 'https://www.example.net/auth/example/callback',
+        },
+        function(accessToken, refreshToken, params, profile, done) {
+          done(null, { accessToken: accessToken, refreshToken: refreshToken, expiresIn: params.expires_in });
+        }
+      );
+      
+      // mock
+      strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
+        if (options.redirect_uri == 'https://www.example.net/auth/example/callback')  {
+          callback(null, 'token', 'refresh-token', { expires_in: 3600 });
+        } else {
+          callback(null, 'bad', 'really-bad');
+        }
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query.code = 'authorization-code'
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.accessToken, 'token');
+        assert.equal(req.user.refreshToken, 'refresh-token');
+        assert.equal(req.user.expiresIn, 3600);
+      },
+    },
+  },
+  
   'strategy handling an authorized request with req argument to callback': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -131,6 +187,67 @@ vows.describe('OAuth2Strategy').addBatch({
       'should authenticate' : function(err, req) {
         assert.equal(req.user.accessToken, 'token');
         assert.equal(req.user.refreshToken, 'refresh-token');
+      },
+      'should have request details' : function(err, req) {
+        assert.equal(req.user.foo, 'bar');
+      },
+    },
+  },
+  
+  'strategy handling an authorized request with req and params argument to callback': {
+    topic: function() {
+      var strategy = new OAuth2Strategy({
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret',
+          callbackURL: 'https://www.example.net/auth/example/callback',
+          passReqToCallback: true
+        },
+        function(req, accessToken, refreshToken, params, profile, done) {
+          done(null, { foo: req.foo, accessToken: accessToken, refreshToken: refreshToken, expiresIn: params.expires_in });
+        }
+      );
+      
+      // mock
+      strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
+        if (options.redirect_uri == 'https://www.example.net/auth/example/callback')  {
+          callback(null, 'token', 'refresh-token', { expires_in: 3600 });
+        } else {
+          callback(null, 'bad', 'really-bad');
+        }
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        req.foo = 'bar';
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query.code = 'authorization-code'
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.accessToken, 'token');
+        assert.equal(req.user.refreshToken, 'refresh-token');
+        assert.equal(req.user.expiresIn, 3600);
       },
       'should have request details' : function(err, req) {
         assert.equal(req.user.foo, 'bar');
