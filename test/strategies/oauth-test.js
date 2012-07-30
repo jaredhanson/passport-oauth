@@ -82,6 +82,65 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy handling an authorized request with params argument to callback': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function(token, tokenSecret, params, profile, done) {
+          done(null, { token: token, tokenSecret: tokenSecret, color: params.elephant });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', { elephant: 'purple' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+        assert.equal(req.user.color, 'purple');
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
   'strategy handling an authorized request with req argument to callback': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -135,6 +194,70 @@ vows.describe('OAuthStrategy').addBatch({
       'should authenticate' : function(err, req) {
         assert.equal(req.user.token, 'access-token');
         assert.equal(req.user.tokenSecret, 'access-token-secret');
+      },
+      'should have request details' : function(err, req) {
+        assert.equal(req.user.foo, 'bar');
+      },
+      'should remove token and token secret from session' : function(err, req) {
+        assert.isUndefined(req.session['oauth']);
+      },
+    },
+  },
+  
+  'strategy handling an authorized request with req and params argument to callback': {
+    topic: function() {
+      var strategy = new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          passReqToCallback: true
+        },
+        function(req, token, tokenSecret, params, profile, done) {
+          done(null, { foo: req.foo, token: token, tokenSecret: tokenSecret, color: params.elephant });
+        }
+      );
+      
+      // mock
+      strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
+        callback(null, 'access-token', 'access-token-secret', { elephant: 'purple' });
+      }
+      
+      return strategy;
+    },
+    
+    'after augmenting with actions': {
+      topic: function(strategy) {
+        var self = this;
+        var req = {};
+        req.foo = 'bar';
+        strategy.success = function(user) {
+          req.user = user;
+          self.callback(null, req);
+        }
+        strategy.fail = function() {
+          self.callback(new Error('should-not-be-called'));
+        }
+        
+        req.query = {};
+        req.query['oauth_token'] = 'token';
+        req.session = {};
+        req.session['oauth'] = {};
+        req.session['oauth']['oauth_token'] = 'token';
+        req.session['oauth']['oauth_token_secret'] = 'token-secret';
+        process.nextTick(function () {
+          strategy.authenticate(req);
+        });
+      },
+      
+      'should not call fail' : function(err, req) {
+        assert.isNull(err);
+      },
+      'should authenticate' : function(err, req) {
+        assert.equal(req.user.token, 'access-token');
+        assert.equal(req.user.tokenSecret, 'access-token-secret');
+        assert.equal(req.user.color, 'purple');
       },
       'should have request details' : function(err, req) {
         assert.equal(req.user.foo, 'bar');
