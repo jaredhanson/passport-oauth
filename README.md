@@ -30,6 +30,7 @@ I will update the list.
   </thead>
   <tbody>
     <tr><td><a href="https://github.com/jaredhanson/passport-37signals">37signals</a></td><td>2.0</td></tr>
+    <tr><td><a href="https://github.com/allplayers/passport-allplayers">AllPlayers.com</a></td><td>1.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-angellist">AngelList</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-bitbucket">Bitbucket</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-digg">Digg</a></td><td>1.0a</td></tr>
