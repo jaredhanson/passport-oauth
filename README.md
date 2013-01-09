@@ -33,6 +33,7 @@ I will update the list.
     <tr><td><a href="https://github.com/allplayers/passport-allplayers">AllPlayers.com</a></td><td>1.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-angellist">AngelList</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-bitbucket">Bitbucket</a></td><td>1.0a</td></tr>
+    <tr><td><a href="https://github.com/rajaraodv/passport-cloudfoundry">Cloud Foundry (UAA)</a></td><td>2.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-digg">Digg</a></td><td>1.0a</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dropbox">Dropbox</a></td><td>1.0</td></tr>
     <tr><td><a href="https://github.com/jaredhanson/passport-dwolla">Dwolla</a></td><td>2.0</td></tr>
