@@ -38,7 +38,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -96,7 +97,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', { elephant: 'purple' });
       }
@@ -156,7 +158,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -219,7 +222,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', { elephant: 'purple' });
       }
@@ -282,7 +286,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -338,7 +343,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -397,7 +403,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -456,7 +463,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -521,7 +529,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -588,7 +597,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -655,7 +665,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -722,7 +733,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -789,7 +801,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -853,7 +866,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -913,7 +927,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(new Error('something-went-wrong'));
       }
@@ -973,7 +988,8 @@ vows.describe('OAuthStrategy').addBatch({
         }
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
         callback(null, 'access-token', 'access-token-secret', {});
       }
@@ -1029,7 +1045,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(null, 'token', 'token-secret', {});
       }
@@ -1083,7 +1100,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(null, 'token', 'token-secret', {});
       }
@@ -1137,7 +1155,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(null, 'token', 'token-secret', {});
       }
@@ -1195,7 +1214,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         if (Object.keys(extraParams).length == 0) {
           callback(null, 'token', 'token-secret', {});
@@ -1256,7 +1276,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         if (Object.keys(extraParams).length == 1) {
           callback(null, 'token_' + extraParams.scope, 'token-secret', {});
@@ -1321,7 +1342,8 @@ vows.describe('OAuthStrategy').addBatch({
         function() {}
       );
       
-      // mock
+       // mock 
+	   strategy._oauth = strategy._oauth || {};
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
         callback(new Error('something-went-wrong'));
       }
