@@ -1197,6 +1197,7 @@ vows.describe('OAuthStrategy').addBatch({
       
       // mock
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+        delete extraParams.oauth_callback
         if (Object.keys(extraParams).length == 0) {
           callback(null, 'token', 'token-secret', {});
         } else {
@@ -1258,6 +1259,7 @@ vows.describe('OAuthStrategy').addBatch({
       
       // mock
       strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+        delete extraParams.oauth_callback
         if (Object.keys(extraParams).length == 1) {
           callback(null, 'token_' + extraParams.scope, 'token-secret', {});
         } else {
