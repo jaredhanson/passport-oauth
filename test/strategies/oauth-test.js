@@ -24,6 +24,45 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  'strategy without custom headers': {
+    topic: function() {
+      return new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret'
+        },
+        function() {}
+      );
+    },
+    
+    'should be named session': function (strategy) {
+      assert.lengthOf(Object.keys(strategy._oauth._headers), 3);
+      assert.equal(strategy._oauth._headers['User-Agent'], 'Node authentication');
+    },
+  },
+  
+  'strategy with custom headers': {
+    topic: function() {
+      return new OAuthStrategy({
+          requestTokenURL: 'https://www.example.com/oauth/request_token',
+          accessTokenURL: 'https://www.example.com/oauth/access_token',
+          userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+          consumerKey: 'ABC123',
+          consumerSecret: 'secret',
+          customHeaders: { 'X-FOO': 'bar' }
+        },
+        function() {}
+      );
+    },
+    
+    'should be named session': function (strategy) {
+      assert.lengthOf(Object.keys(strategy._oauth._headers), 1);
+      assert.equal(strategy._oauth._headers['X-FOO'], 'bar');
+    },
+  },
+  
   'strategy handling an authorized request': {
     topic: function() {
       var strategy = new OAuthStrategy({
