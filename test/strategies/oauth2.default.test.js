@@ -146,6 +146,44 @@ describe('OAuth2Strategy with default options', function() {
     });
   });
   
+  describe('handling a request to be redirected for authorization with a scope', function() {
+    var url;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .redirect(function(u) {
+          url = u;
+          done();
+        })
+        .req(function(req) {
+        })
+        .authenticate({ scope: 'permission' });
+    });
+  
+    it('should be redirected', function() {
+      expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Fcallback&scope=permission&client_id=ABC123&type=web_server');
+    });
+  });
+  
+  describe('handling a request to be redirected for authorization with multiple scopes', function() {
+    var url;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .redirect(function(u) {
+          url = u;
+          done();
+        })
+        .req(function(req) {
+        })
+        .authenticate({ scope: ['permission_1', 'permission_2' ] });
+    });
+  
+    it('should be redirected', function() {
+      expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Fcallback&scope=permission_1%20permission_2&client_id=ABC123&type=web_server');
+    });
+  });
+  
   describe('handling a request to be redirected for authorization with callbackURL option override', function() {
     var url;
   
@@ -162,6 +200,28 @@ describe('OAuth2Strategy with default options', function() {
   
     it('should be redirected', function() {
       expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Fone-callback&client_id=ABC123&type=web_server');
+    });
+  });
+  
+  describe('handling a request to be redirected for authorization with a relative callbackURL option override', function() {
+    var url;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .redirect(function(u) {
+          url = u;
+          done();
+        })
+        .req(function(req) {
+          req.url = '/auth/example/two-callback';
+          req.headers.host = 'www.example.net';
+          req.connection = { encrypted: true };
+        })
+        .authenticate({ callbackURL: '/auth/example/two-callback' });
+    });
+  
+    it('should be redirected', function() {
+      expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Fwww.example.net%2Fauth%2Fexample%2Ftwo-callback&client_id=ABC123&type=web_server');
     });
   });
   

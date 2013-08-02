@@ -1243,6 +1243,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with a relative callbackURL option override': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1294,6 +1295,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with a scope': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1339,6 +1341,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with a scope specified as strategy option': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1385,6 +1388,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with state': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1430,6 +1434,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with multiple scopes': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1475,6 +1480,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with multiple scopes and scope separator option': {
     topic: function() {
       var strategy = new OAuth2Strategy({
