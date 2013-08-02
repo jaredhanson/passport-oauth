@@ -1,5 +1,6 @@
 var chai = require('chai')
-  , OAuth2Strategy = require('../../lib/strategies/oauth2');
+  , OAuth2Strategy = require('../../lib/strategies/oauth2')
+  , AuthorizationError = require('../../lib/errors/authorizationerror');
 
 
 describe('OAuth2Strategy with default options', function() {
@@ -225,7 +226,7 @@ describe('OAuth2Strategy with default options', function() {
     });
   });
   
-  describe('handling a request that has been denied by the user', function() {
+  describe('handling a request that has been denied by the user without description', function() {
     var info;
   
     before(function(done) {
@@ -243,13 +244,11 @@ describe('OAuth2Strategy with default options', function() {
   
     it('should supply info', function() {
       expect(info).to.not.be.undefined;
-      expect(info.code).to.equal('access_denied');
       expect(info.message).to.be.undefined;
-      expect(info.helpURL).to.be.undefined;
     });
   });
   
-  describe('handling a request that has been denied by the user and has description', function() {
+  describe('handling a request that has been denied by the user with description', function() {
     var info;
   
     before(function(done) {
@@ -260,43 +259,92 @@ describe('OAuth2Strategy with default options', function() {
         })
         .req(function(req) {
           req.query = {};
-          req.query.error = 'temporarily_unavailable';
-          req.query.error_description = 'Try again later';
+          req.query.error = 'access_denied';
+          req.query.error_description = 'Why oh why?';
         })
         .authenticate();
     });
   
     it('should supply info', function() {
       expect(info).to.not.be.undefined;
-      expect(info.code).to.equal('temporarily_unavailable');
-      expect(info.message).to.equal('Try again later');
-      expect(info.helpURL).to.be.undefined;
+      expect(info.message).to.equal('Why oh why?');
     });
   });
   
-  describe('handling a request that has been denied by the user and has description and help link', function() {
-    var info;
+  describe('handling a request that indicates a server error without description', function() {
+    var err;
   
     before(function(done) {
       chai.passport(strategy)
-        .fail(function(i) {
-          info = i;
+        .error(function(e) {
+          err = e;
           done();
         })
         .req(function(req) {
           req.query = {};
-          req.query.error = 'temporarily_unavailable';
-          req.query.error_description = 'Try again later';
+          req.query.error = 'invalid_scope';
+        })
+        .authenticate();
+    });
+  
+    it('should error', function() {
+      expect(err).to.be.an.instanceof(AuthorizationError)
+      expect(err.message).to.equal('OAuth 2.0 authorization error');
+      expect(err.code).to.equal('invalid_scope');
+      expect(err.uri).to.be.undefined;
+      expect(err.status).to.equal(500);
+    });
+  });
+  
+  describe('handling a request that indicates a server error with description', function() {
+    var err;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .error(function(e) {
+          err = e;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.error = 'invalid_scope';
+          req.query.error_description = 'The scope is invalid';
+        })
+        .authenticate();
+    });
+  
+    it('should error', function() {
+      expect(err).to.be.an.instanceof(AuthorizationError)
+      expect(err.message).to.equal('The scope is invalid');
+      expect(err.code).to.equal('invalid_scope');
+      expect(err.uri).to.be.undefined;
+      expect(err.status).to.equal(500);
+    });
+  });
+  
+  describe('handling a request that indicates a server error with description and link', function() {
+    var err;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .error(function(e) {
+          err = e;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.error = 'invalid_scope';
+          req.query.error_description = 'The scope is invalid';
           req.query.error_uri = 'http://www.example.com/oauth2/help';
         })
         .authenticate();
     });
   
-    it('should supply info', function() {
-      expect(info).to.not.be.undefined;
-      expect(info.code).to.equal('temporarily_unavailable');
-      expect(info.message).to.equal('Try again later');
-      expect(info.helpURL).to.equal('http://www.example.com/oauth2/help');
+    it('should error', function() {
+      expect(err).to.be.an.instanceof(AuthorizationError)
+      expect(err.message).to.equal('The scope is invalid');
+      expect(err.uri).to.equal('http://www.example.com/oauth2/help');
+      expect(err.status).to.equal(500);
     });
   });
   
