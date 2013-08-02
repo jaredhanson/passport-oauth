@@ -6,6 +6,7 @@ var OAuthStrategy = require('../../lib/strategies/oauth');
 
 vows.describe('OAuthStrategy').addBatch({
   
+  // OK
   'strategy': {
     topic: function() {
       return new OAuthStrategy({
