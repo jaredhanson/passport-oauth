@@ -80,6 +80,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with params argument to callback': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -136,6 +137,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with req argument to callback': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -196,6 +198,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with req and params argument to callback': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -257,6 +260,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with a callbackURL option override': {
     topic: function() {
       var strategy = new OAuth2Strategy({
