@@ -14,7 +14,7 @@ describe('OAuth2Strategy', function() {
     expect(strategy.name).to.equal('oauth2');
   });
   
-  describe('constructed without a verify callback', function() {
+  it('constructed without a verify callback', function() {
     expect(function() {
       new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -25,7 +25,7 @@ describe('OAuth2Strategy', function() {
     }).to.throw(TypeError, 'OAuth2Strategy requires a verify callback');
   });
   
-  describe('constructed without a authorizationURL option', function() {
+  it('constructed without a authorizationURL option', function() {
     expect(function() {
       new OAuth2Strategy({
         tokenURL: 'https://www.example.com/oauth2/token',
@@ -35,7 +35,7 @@ describe('OAuth2Strategy', function() {
     }).to.throw(TypeError, 'OAuth2Strategy requires a authorizationURL option');
   });
   
-  describe('constructed without a tokenURL option', function() {
+  it('constructed without a tokenURL option', function() {
     expect(function() {
       new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -45,7 +45,7 @@ describe('OAuth2Strategy', function() {
     }).to.throw(TypeError, 'OAuth2Strategy requires a tokenURL option');
   });
   
-  describe('constructed without a clientID option', function() {
+  it('constructed without a clientID option', function() {
     expect(function() {
       new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -55,7 +55,7 @@ describe('OAuth2Strategy', function() {
     }).to.throw(TypeError, 'OAuth2Strategy requires a clientID option');
   });
   
-  describe('constructed without a clientSecret option', function() {
+  it('constructed without a clientSecret option', function() {
     expect(function() {
       new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',

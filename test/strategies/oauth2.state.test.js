@@ -2,7 +2,7 @@ var chai = require('chai')
   , OAuth2Strategy = require('../../lib/strategies/oauth2');
 
 
-describe('OAuth2Strategy with scope option', function() {
+describe('OAuth2Strategy with explicity per-request state', function() {
     
   var strategy = new OAuth2Strategy({
       authorizationURL: 'https://www.example.com/oauth2/authorize',

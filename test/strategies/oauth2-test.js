@@ -995,6 +995,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1576,6 +1577,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with scope and extra params': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1625,6 +1627,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request that has been denied': {
     topic: function() {
       var strategy = new OAuth2Strategy({

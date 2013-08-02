@@ -225,6 +225,81 @@ describe('OAuth2Strategy with default options', function() {
     });
   });
   
+  describe('handling a request that has been denied by the user', function() {
+    var info;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .fail(function(i) {
+          info = i;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.error = 'access_denied';
+        })
+        .authenticate();
+    });
+  
+    it('should supply info', function() {
+      expect(info).to.not.be.undefined;
+      expect(info.code).to.equal('access_denied');
+      expect(info.message).to.be.undefined;
+      expect(info.helpURL).to.be.undefined;
+    });
+  });
+  
+  describe('handling a request that has been denied by the user and has description', function() {
+    var info;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .fail(function(i) {
+          info = i;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.error = 'temporarily_unavailable';
+          req.query.error_description = 'Try again later';
+        })
+        .authenticate();
+    });
+  
+    it('should supply info', function() {
+      expect(info).to.not.be.undefined;
+      expect(info.code).to.equal('temporarily_unavailable');
+      expect(info.message).to.equal('Try again later');
+      expect(info.helpURL).to.be.undefined;
+    });
+  });
+  
+  describe('handling a request that has been denied by the user and has description and help link', function() {
+    var info;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .fail(function(i) {
+          info = i;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.error = 'temporarily_unavailable';
+          req.query.error_description = 'Try again later';
+          req.query.error_uri = 'http://www.example.com/oauth2/help';
+        })
+        .authenticate();
+    });
+  
+    it('should supply info', function() {
+      expect(info).to.not.be.undefined;
+      expect(info.code).to.equal('temporarily_unavailable');
+      expect(info.message).to.equal('Try again later');
+      expect(info.helpURL).to.equal('http://www.example.com/oauth2/help');
+    });
+  });
+  
 });
 
 
