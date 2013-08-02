@@ -14,30 +14,26 @@ describe('OAuth2Strategy with default options', function() {
     function(accessToken, refreshToken, profile, done) {
       if (accessToken == '2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'tGzv3JOkF0XG5Qx2TlKWIA' && Object.keys(profile).length == 0) { 
         return done(null, { id: '1234' }, { message: 'Hello' });
-      } else if (accessToken == 'other-2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'other-tGzv3JOkF0XG5Qx2TlKWIA' && Object.keys(profile).length == 0) { 
-        return done(null, { id: 'othr' }, { message: 'Hello' });
-      } else if (accessToken == 'another-2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'another-tGzv3JOkF0XG5Qx2TlKWIA' && Object.keys(profile).length == 0) { 
-        return done(null, { id: 'anothr' }, { message: 'Hello' });
+      } else if (accessToken == 'one-2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'one-tGzv3JOkF0XG5Qx2TlKWIA' && Object.keys(profile).length == 0) { 
+        return done(null, { id: 'one' }, { message: 'Hello' });
+      } else if (accessToken == 'two-2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'two-tGzv3JOkF0XG5Qx2TlKWIA' && Object.keys(profile).length == 0) { 
+        return done(null, { id: 'two' }, { message: 'Hello' });
       }
       return done(null, false);
     });
   
   // inject a "mock" oauth2 instance
   strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
-    if (code == 'SplxlOBeZQQYbYS6WxSbIA' &&
-        options.grant_type == 'authorization_code' &&
-        options.redirect_uri == 'https://www.example.net/auth/example/callback') {
-      callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
-    } else if (code == 'SplxlOBeZQQYbYS6WxSbIA' &&
-               options.grant_type == 'authorization_code' &&
-               options.redirect_uri == 'https://www.example.net/auth/example/other-callback') {
-      callback(null, 'other-2YotnFZFEjr1zCsicMWpAA', 'other-tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
-    } else if (code == 'SplxlOBeZQQYbYS6WxSbIA' &&
-               options.grant_type == 'authorization_code' &&
-               options.redirect_uri == 'https://www.example.net/auth/example/another-callback') {
-      callback(null, 'another-2YotnFZFEjr1zCsicMWpAA', 'another-tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+    if (code == 'SplxlOBeZQQYbYS6WxSbIA' && options.grant_type == 'authorization_code') {
+      if (options.redirect_uri == 'https://www.example.net/auth/example/callback') {
+        return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+      } else if (options.redirect_uri == 'https://www.example.net/auth/example/one-callback') {
+        return callback(null, 'one-2YotnFZFEjr1zCsicMWpAA', 'one-tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+      } else if (options.redirect_uri == 'https://www.example.net/auth/example/two-callback') {
+        return callback(null, 'two-2YotnFZFEjr1zCsicMWpAA', 'two-tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+      }
     } else {
-      callback(null, 'wrong-access-token', 'wrong-refresh-token');
+      return callback(null, 'wrong-access-token', 'wrong-refresh-token');
     }
   }
   
@@ -85,12 +81,12 @@ describe('OAuth2Strategy with default options', function() {
           req.query = {};
           req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
         })
-        .authenticate({ callbackURL: 'https://www.example.net/auth/example/other-callback' });
+        .authenticate({ callbackURL: 'https://www.example.net/auth/example/one-callback' });
     });
   
     it('should supply user', function() {
       expect(user).to.be.an.object;
-      expect(user.id).to.equal('othr');
+      expect(user.id).to.equal('one');
     });
   
     it('should supply info', function() {
@@ -111,18 +107,18 @@ describe('OAuth2Strategy with default options', function() {
           done();
         })
         .req(function(req) {
-          req.url = '/auth/example/another-callback';
+          req.url = '/auth/example/two-callback';
           req.headers.host = 'www.example.net';
           req.query = {};
           req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
           req.connection = { encrypted: true };
         })
-        .authenticate({ callbackURL: '/auth/example/another-callback' });
+        .authenticate({ callbackURL: '/auth/example/two-callback' });
     });
   
     it('should supply user', function() {
       expect(user).to.be.an.object;
-      expect(user.id).to.equal('anothr');
+      expect(user.id).to.equal('two');
     });
   
     it('should supply info', function() {

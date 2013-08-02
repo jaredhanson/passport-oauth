@@ -591,6 +591,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should not load user profile when option is disabled': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -648,6 +649,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile when function synchronously returns false': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -707,6 +709,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should not load user profile when function synchronously returns true': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -766,6 +769,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile when function asynchronously returns false': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -825,6 +829,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should not load user profile when function asynchronously returns true': {
     topic: function() {
       var strategy = new OAuth2Strategy({
