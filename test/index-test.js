@@ -6,6 +6,7 @@ var oauth = require('../');
 
 vows.describe('passport-oauth').addBatch({
   
+  // OK
   'module': {
     'should export InternalOAuthError': function (x) {
       assert.isFunction(oauth.InternalOAuthError);

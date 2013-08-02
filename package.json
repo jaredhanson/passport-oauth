@@ -36,7 +36,10 @@
     "oauth": "0.9.x"
   },
   "devDependencies": {
-    "vows": "0.7.x"
+    "vows": "0.7.x",
+    "mocha": "1.x.x",
+    "chai": "1.x.x",
+    "chai-passport-strategy": "0.1.x"
   },
   "engines": { "node": ">= 0.4.0" },
   "scripts": {
