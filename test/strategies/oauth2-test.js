@@ -6,6 +6,7 @@ var OAuth2Strategy = require('../../lib/strategies/oauth2');
 
 vows.describe('OAuth2Strategy').addBatch({
   
+  // OK
   'strategy': {
     topic: function() {
       return new OAuth2Strategy({
@@ -23,6 +24,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request': {
     topic: function() {
       var strategy = new OAuth2Strategy({
