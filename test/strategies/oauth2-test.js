@@ -889,6 +889,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that fails to load user profile': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -943,6 +944,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that fails to obtain an access token': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1038,6 +1040,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected to a path for authorization': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1089,6 +1092,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an encrypted request to be redirected to a path for authorization': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1140,6 +1144,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an encrypted request from behind a proxy to be redirected to a path for authorization': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -1192,6 +1197,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected for authorization with a callbackURL option override': {
     topic: function() {
       var strategy = new OAuth2Strategy({

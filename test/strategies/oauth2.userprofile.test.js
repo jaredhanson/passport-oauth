@@ -34,12 +34,13 @@ describe('OAuth2Strategy that overrides userProfile function', function() {
   
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
-      if (code == 'SplxlOBeZQQYbYS6WxSbIA' &&
-          options.grant_type == 'authorization_code' &&
+      if (code == 'SplxlOBeZQQYbYS6WxSbIA' && options.grant_type == 'authorization_code' &&
           options.redirect_uri == 'https://www.example.net/auth/example/callback') {
-        callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+        return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+      } else if (code == 'fail') {
+        return callback(null, 'fail-2YotnFZFEjr1zCsicMWpAA', 'fail-tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
       } else {
-        callback(null, 'wrong-access-token', 'wrong-refresh-token');
+        return callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
     }
   
@@ -71,6 +72,28 @@ describe('OAuth2Strategy that overrides userProfile function', function() {
       it('should supply info', function() {
         expect(info).to.be.an.object;
         expect(info.message).to.equal('Hello');
+      });
+    });
+    
+    describe('failing to load user profile', function() {
+      var err;
+  
+      before(function(done) {
+        chai.passport(strategy)
+          .error(function(e) {
+            err = e;
+            done();
+          })
+          .req(function(req) {
+            req.query = {};
+            req.query.code = 'fail';
+          })
+          .authenticate();
+      });
+  
+      it('should error', function() {
+        expect(err).to.be.an.instanceof(Error)
+        expect(err.message).to.equal('failed to load user profile');
       });
     });
   });
@@ -244,7 +267,7 @@ describe('OAuth2Strategy that overrides userProfile function', function() {
           .authenticate();
       });
   
-      it('should supply user with profile', function() {
+      it('should supply user without profile', function() {
         expect(user).to.be.an.object;
         expect(user.id).to.equal('1234');
         expect(user.profile).to.be.undefined;
@@ -369,7 +392,7 @@ describe('OAuth2Strategy that overrides userProfile function', function() {
           .authenticate();
       });
   
-      it('should supply user with profile', function() {
+      it('should supply user without profile', function() {
         expect(user).to.be.an.object;
         expect(user.id).to.equal('1234');
         expect(user.profile).to.be.undefined;
