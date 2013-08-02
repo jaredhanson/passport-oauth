@@ -1,7 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var InternalOAuthError = require('../../lib/passport-oauth/errors/internaloautherror');
+var InternalOAuthError = require('../../lib/errors/internaloautherror');
 
 
 vows.describe('InternalOAuthError').addBatch({

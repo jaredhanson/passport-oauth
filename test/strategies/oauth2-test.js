@@ -1,7 +1,7 @@
 var vows = require('vows');
 var assert = require('assert');
 var util = require('util');
-var OAuth2Strategy = require('../../lib/passport-oauth/strategies/oauth2');
+var OAuth2Strategy = require('../../lib/strategies/oauth2');
 
 
 vows.describe('OAuth2Strategy').addBatch({
