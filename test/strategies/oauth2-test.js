@@ -316,6 +316,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with a relative callbackURL option override': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -377,6 +378,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that is not verified': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -426,6 +428,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that is not verified with additional info': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -478,6 +481,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that encounters an error during verification': {
     topic: function() {
       var strategy = new OAuth2Strategy({
@@ -530,6 +534,7 @@ vows.describe('OAuth2Strategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile by default': {
     topic: function() {
       var strategy = new OAuth2Strategy({
