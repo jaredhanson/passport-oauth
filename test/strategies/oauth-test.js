@@ -64,6 +64,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -122,6 +123,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with params argument to callback': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -181,6 +183,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with req argument to callback': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -244,6 +247,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request with req and params argument to callback': {
     topic: function() {
       var strategy = new OAuthStrategy({

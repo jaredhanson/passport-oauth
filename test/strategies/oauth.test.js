@@ -1,7 +1,7 @@
 var OAuthStrategy = require('../../lib/strategies/oauth');
 
 
-describe('OAuth2Strategy', function() {
+describe('OAuthStrategy', function() {
     
   var strategy = new OAuthStrategy({
       requestTokenURL: 'https://www.example.com/oauth/request_token',
