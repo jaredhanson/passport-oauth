@@ -312,6 +312,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that is not verified': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -368,6 +369,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that is not verified with additional info': {
     topic: function() {
       var strategy = new OAuthStrategy({

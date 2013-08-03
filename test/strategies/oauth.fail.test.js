@@ -2,20 +2,17 @@ var chai = require('chai')
   , OAuthStrategy = require('../../lib/strategies/oauth');
 
 
-describe('OAuthStrategy with passReqToCallback option', function() {
+describe('OAuthStrategy that fails verification', function() {
     
-  describe('and standard verify callback', function() {
+  describe('without additional information', function() {
+    
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
         userAuthorizationURL: 'https://www.example.com/oauth/authorize',
         consumerKey: 'ABC123',
-        consumerSecret: 'secret',
-        passReqToCallback: true
-      }, function(req, token, tokenSecret, profile, done) {
-        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00' && Object.keys(profile).length == 0) {
-          return done(null, { id: '1234' }, { message: 'Hello', foo: req.headers['x-foo'] });
-        }
+        consumerSecret: 'secret'
+      }, function(token, tokenSecret, profile, done) {
         return done(null, false);
       });
     
@@ -30,19 +27,16 @@ describe('OAuthStrategy with passReqToCallback option', function() {
     
     describe('handling an authorized callback request', function() {
       var request
-        , user
         , info;
 
       before(function(done) {
         chai.passport(strategy)
-          .success(function(u, i) {
-            user = u;
+          .fail(function(i) {
             info = i;
             done();
           })
           .req(function(req) {
             request = req;
-            req.headers['x-foo'] = 'hello';
             req.query = {};
             req.query['oauth_token'] = 'hh5s93j4hdidpola';
             req.query['oauth_verifier'] = 'hfdp7dh39dks9884';
@@ -54,18 +48,8 @@ describe('OAuthStrategy with passReqToCallback option', function() {
           .authenticate();
       });
 
-      it('should supply user', function() {
-        expect(user).to.be.an.object;
-        expect(user.id).to.equal('1234');
-      });
-
-      it('should supply info', function() {
-        expect(info).to.be.an.object;
-        expect(info.message).to.equal('Hello');
-      });
-      
-      it('should supply request header in info', function() {
-        expect(info.foo).to.equal('hello');
+      it('should not supply info', function() {
+        expect(info).to.be.undefined;
       });
       
       it('should remove token and token secret from session', function() {
@@ -74,25 +58,22 @@ describe('OAuthStrategy with passReqToCallback option', function() {
     });
   });
   
-  describe('and params argument in verify callback', function() {
+  describe('with additional information', function() {
+    
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
         userAuthorizationURL: 'https://www.example.com/oauth/authorize',
         consumerKey: 'ABC123',
-        consumerSecret: 'secret',
-        passReqToCallback: true
-      }, function(req, token, tokenSecret, params, profile, done) {
-        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00' && params.elephant == 'purple' && Object.keys(profile).length == 0) {
-          return done(null, { id: '1234' }, { message: 'Hello', foo: req.headers['x-foo'] });
-        }
-        return done(null, false);
+        consumerSecret: 'secret'
+      }, function(token, tokenSecret, profile, done) {
+        return done(null, false, { message: 'Invite required' });
       });
     
     // inject a "mock" oauth instance
     strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
       if (token == 'hh5s93j4hdidpola' && tokenSecret == 'hdhd0244k9j7ao03' && verifier == 'hfdp7dh39dks9884') {
-        return callback(null, 'nnch734d00sl2jdk', 'pfkkdhi9sl3r4s00', { elephant: 'purple' });
+        return callback(null, 'nnch734d00sl2jdk', 'pfkkdhi9sl3r4s00', {});
       } else {
         return callback(null, 'wrong-token', 'wrong-token-secret');
       }
@@ -100,19 +81,16 @@ describe('OAuthStrategy with passReqToCallback option', function() {
     
     describe('handling an authorized callback request', function() {
       var request
-        , user
         , info;
 
       before(function(done) {
         chai.passport(strategy)
-          .success(function(u, i) {
-            user = u;
+          .fail(function(i) {
             info = i;
             done();
           })
           .req(function(req) {
             request = req;
-            req.headers['x-foo'] = 'hello';
             req.query = {};
             req.query['oauth_token'] = 'hh5s93j4hdidpola';
             req.query['oauth_verifier'] = 'hfdp7dh39dks9884';
@@ -124,18 +102,9 @@ describe('OAuthStrategy with passReqToCallback option', function() {
           .authenticate();
       });
 
-      it('should supply user', function() {
-        expect(user).to.be.an.object;
-        expect(user.id).to.equal('1234');
-      });
-
       it('should supply info', function() {
         expect(info).to.be.an.object;
-        expect(info.message).to.equal('Hello');
-      });
-      
-      it('should supply request header in info', function() {
-        expect(info.foo).to.equal('hello');
+        expect(info.message).to.equal('Invite required');
       });
       
       it('should remove token and token secret from session', function() {

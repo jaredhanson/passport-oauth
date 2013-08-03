@@ -27,7 +27,8 @@ describe('OAuthStrategy with default options', function() {
   }
     
   describe('handling an authorized callback request', function() {
-    var user
+    var request
+      , user
       , info;
 
     before(function(done) {
@@ -38,6 +39,7 @@ describe('OAuthStrategy with default options', function() {
           done();
         })
         .req(function(req) {
+          request = req;
           req.query = {};
           req.query['oauth_token'] = 'hh5s93j4hdidpola';
           req.query['oauth_verifier'] = 'hfdp7dh39dks9884';
@@ -57,6 +59,10 @@ describe('OAuthStrategy with default options', function() {
     it('should supply info', function() {
       expect(info).to.be.an.object;
       expect(info.message).to.equal('Hello');
+    });
+    
+    it('should remove token and token secret from session', function() {
+      expect(request.session['oauth']).to.be.undefined;
     });
   });
   
