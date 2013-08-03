@@ -620,6 +620,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile when function synchronously returns false': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1182,6 +1183,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected with authorization params after obtaining a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
