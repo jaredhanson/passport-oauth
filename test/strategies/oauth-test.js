@@ -1013,6 +1013,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that lacks request token in session': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1071,6 +1072,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1125,6 +1127,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected to a URL with query parameters after obtaining a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
