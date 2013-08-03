@@ -429,6 +429,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that encounters an error during verification': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -488,6 +489,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile by default': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -552,6 +554,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should not load user profile when option is disabled': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -684,6 +687,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should not load user profile when function synchronously returns true': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -751,6 +755,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile when function asynchronously returns false': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -818,6 +823,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request should load user profile when function asynchronously returns true': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -885,6 +891,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that fails to load user profile': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -947,6 +954,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling an authorized request that fails to obtain an access token': {
     topic: function() {
       var strategy = new OAuthStrategy({

@@ -66,4 +66,34 @@ describe('OAuthStrategy with default options', function() {
     });
   });
   
+  describe('handling an authorized callback request that lacks request token in session', function() {
+    var request
+      , err;
+
+    before(function(done) {
+      chai.passport(strategy)
+        .error(function(e) {
+          err = e;
+          done();
+        })
+        .req(function(req) {
+          request = req;
+          req.query = {};
+          req.query['oauth_token'] = 'hh5s93j4hdidpola';
+          req.query['oauth_verifier'] = 'hfdp7dh39dks9884';
+          req.session = {};
+        })
+        .authenticate();
+    });
+
+    it('should error', function() {
+      expect(err).to.be.an.instanceof(Error);
+      expect(err.message).to.equal('Failed to find request token in session');
+    });
+    
+    it('should still lack token and token secret from session', function() {
+      expect(request.session['oauth']).to.be.undefined;
+    });
+  });
+  
 });
