@@ -1435,6 +1435,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token using default relative callback URL': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1503,6 +1504,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token using override callback URL': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1565,6 +1567,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token using relative override callback URL': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1633,6 +1636,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request that fails to obtain a request token': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1688,6 +1692,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy constructed without a verify callback': {
     'should throw an error': function (strategy) {
       assert.throws(function() {
@@ -1702,6 +1707,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy constructed without a consumerSecret': {
     'should throw an error': function (strategy) {
       assert.throws(function() {
@@ -1715,6 +1721,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy constructed with an empty consumerSecret': {
     'should throw an error': function (strategy) {
       assert.doesNotThrow(function() {

@@ -58,6 +58,52 @@ describe('OAuthStrategy that encounters an error', function() {
       });
     });
   });
+  
+  describe('while getting a request token', function() {
+    
+    var strategy = new OAuthStrategy({
+        requestTokenURL: 'https://www.example.com/oauth/request_token',
+        accessTokenURL: 'https://www.example.com/oauth/access_token',
+        userAuthorizationURL: 'https://www.example.com/oauth/authorize',
+        consumerKey: 'ABC123',
+        consumerSecret: 'secret'
+      }, function(token, tokenSecret, profile, done) {
+        return done(new Error('something went wrong'));
+      });
+    
+    // inject a "mock" oauth instance
+    strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+      callback(new Error('failed to get request token'));
+    }
+    
+    describe('handling an authorized callback request', function() {
+      var request
+        , info;
+
+      before(function(done) {
+        chai.passport(strategy)
+          .error(function(e) {
+            err = e;
+            done();
+          })
+          .req(function(req) {
+            request = req;
+            req.session = {};
+          })
+          .authenticate();
+      });
+
+      it('should error', function() {
+        expect(err).to.be.an.instanceof(InternalOAuthError);
+        expect(err.message).to.equal('Failed to obtain request token');
+        expect(err.oauthError.message).to.equal('failed to get request token');
+      });
+      
+      it('should not store token and token secret in session', function() {
+        expect(request.session['oauth']).to.be.undefined;
+      });
+    });
+  });
     
   describe('while verifying user profile', function() {
     
