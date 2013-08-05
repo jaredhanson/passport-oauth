@@ -1242,6 +1242,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token without extra params': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1304,6 +1305,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token with extra params': {
     topic: function() {
       var strategy = new OAuthStrategy({
@@ -1370,6 +1372,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy handling a request to be redirected after obtaining a request token using default callback URL': {
     topic: function() {
       var strategy = new OAuthStrategy({

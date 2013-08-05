@@ -27,7 +27,11 @@ describe('OAuthStrategy with default options', function() {
   }
   
   strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
-    callback(null, 'hh5s93j4hdidpola', 'hdhd0244k9j7ao03', {});
+    if (extraParams.oauth_callback == undefined) {
+      callback(null, 'hh5s93j4hdidpola', 'hdhd0244k9j7ao03', {});
+    } else {
+      callback(new Error('wrong request token params'));
+    }
   }
     
   describe('handling an authorized callback request', function() {
