@@ -7,7 +7,7 @@ describe('InternalOAuthError', function() {
     var err = new InternalOAuthError('oops');
     
     it('should format correctly', function() {
-      expect(err.toString()).to.equal('oops');
+      expect(err.toString()).to.equal('InternalOAuthError: oops');
     });
   });
   
@@ -15,7 +15,7 @@ describe('InternalOAuthError', function() {
     var err = new InternalOAuthError('oops', new Error('something is wrong'));
     
     it('should format correctly', function() {
-      expect(err.toString()).to.equal('oops (Error: something is wrong)');
+      expect(err.toString()).to.equal('Error: something is wrong');
     });
   });
   
@@ -23,7 +23,7 @@ describe('InternalOAuthError', function() {
     var err = new InternalOAuthError('oops', { statusCode: 401, data: 'invalid OAuth credentials' });
     
     it('should format correctly', function() {
-      expect(err.toString()).to.equal('oops (status: 401 data: invalid OAuth credentials)');
+      expect(err.toString()).to.equal('InternalOAuthError: oops (status: 401 data: invalid OAuth credentials)');
     });
   });
   
