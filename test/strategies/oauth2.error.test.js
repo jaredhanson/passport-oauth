@@ -3,9 +3,9 @@ var chai = require('chai')
   , InternalOAuthError = require('../../lib/errors/internaloautherror');
 
 
-describe('OAuth2Strategy that encounters an error', function() {
+describe('OAuth2Strategy', function() {
     
-  describe('while getting access token', function() {
+  describe('that encounters an error obtaining an access token', function() {
     
     var strategy = new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -23,7 +23,7 @@ describe('OAuth2Strategy that encounters an error', function() {
   
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
-      callback(new Error('failed to get access token'));
+      return callback(new Error('something went wrong'));
     }
   
     describe('handling an authorized return request', function() {
@@ -45,12 +45,12 @@ describe('OAuth2Strategy that encounters an error', function() {
       it('should error', function() {
         expect(err).to.be.an.instanceof(InternalOAuthError)
         expect(err.message).to.equal('Failed to obtain access token');
-        expect(err.oauthError.message).to.equal('failed to get access token');
+        expect(err.oauthError.message).to.equal('something went wrong');
       });
     });
   });
   
-  describe('while verifying user profile', function() {
+  describe('that encounters an error during verification', function() {
     
     var strategy = new OAuth2Strategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -65,11 +65,10 @@ describe('OAuth2Strategy that encounters an error', function() {
   
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
-      if (code == 'SplxlOBeZQQYbYS6WxSbIA' && options.grant_type == 'authorization_code' &&
-          options.redirect_uri == 'https://www.example.net/auth/example/callback') {
-        callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example', expires_in: 3600, example_parameter: 'example_value' });
+      if (code == 'SplxlOBeZQQYbYS6WxSbIA' && options.grant_type == 'authorization_code') {
+        return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', { token_type: 'example' });
       } else {
-        callback(null, 'wrong-access-token', 'wrong-refresh-token');
+        return callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
     }
   
