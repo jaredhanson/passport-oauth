@@ -2,6 +2,7 @@ var chai = require('chai')
   , OAuthStrategy = require('../../lib/strategies/oauth')
   , util = require('util');
 
+
 function MockOAuthStrategy(options, verify) {
   OAuthStrategy.call(this, options, verify);
 }
@@ -12,10 +13,9 @@ MockOAuthStrategy.prototype.requestTokenParams = function(options) {
 }
 
 
-describe('OAuthStrategy that overrides userAuthorizationParams function', function() {
+describe('OAuthStrategy', function() {
     
-  describe('with default options', function() {
-    
+  describe('subclass that overrides requestTokenParams function', function() {
     var strategy = new MockOAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
