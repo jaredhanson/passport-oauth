@@ -258,4 +258,27 @@ describe('OAuthStrategy', function() {
     });
   });
   
+  describe('with custom headers option', function() {
+    var strategy = new OAuthStrategy({
+        requestTokenURL: 'https://www.example.com/oauth/request_token',
+        accessTokenURL: 'https://www.example.com/oauth/access_token',
+        userAuthorizationURL: 'https://www.example.com/oauth/authorize?foo=bar',
+        consumerKey: 'ABC123',
+        consumerSecret: 'secret',
+        customHeaders: { 'X-FOO': 'bar' }
+      }, function(token, tokenSecret, profile, done) {
+        if (Object.keys(profile).length !== 0) { return done(null, false); }
+        
+        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00') {
+          return done(null, { id: '1234' }, { message: 'Hello' });
+        }
+        return done(null, false);
+      });
+  
+    it('should have user agent header set by underlying oauth module', function() {
+      expect(Object.keys(strategy._oauth._headers)).to.have.length(1);
+      expect(strategy._oauth._headers['X-FOO']).to.equal('bar');
+    });
+  });
+  
 });

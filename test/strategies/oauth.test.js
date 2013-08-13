@@ -15,6 +15,11 @@ describe('OAuthStrategy', function() {
     expect(strategy.name).to.equal('oauth');
   });
   
+  it('should have user agent header set by underlying oauth module', function() {
+    expect(Object.keys(strategy._oauth._headers)).to.have.length(3);
+    expect(strategy._oauth._headers['User-Agent']).to.equal('Node authentication');
+  });
+  
   it('should throw if constructed without a verify callback', function() {
     expect(function() {
       new OAuthStrategy({

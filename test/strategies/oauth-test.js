@@ -25,6 +25,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy without custom headers': {
     topic: function() {
       return new OAuthStrategy({
@@ -44,6 +45,7 @@ vows.describe('OAuthStrategy').addBatch({
     },
   },
   
+  // OK
   'strategy with custom headers': {
     topic: function() {
       return new OAuthStrategy({
