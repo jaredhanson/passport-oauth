@@ -29,6 +29,8 @@ describe('OAuthStrategy', function() {
   }
   
   strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
+    if (Object.keys(extraParams).length !== 1) { return callback(null, false); }
+    
     if (extraParams.oauth_callback == undefined) {
       callback(null, 'hh5s93j4hdidpola', 'hdhd0244k9j7ao03', {});
     } else {
