@@ -133,6 +133,38 @@ describe('OAuthStrategy', function() {
       expect(request.session['oauth']['oauth_token_secret']).to.equal('hdhd0244k9j7ao03');
     });
   });
+  
+  describe('handling a callback request that fails verification', function() {
+    var request
+      , info;
+
+    before(function(done) {
+      chai.passport(strategy)
+        .fail(function(i) {
+          info = i;
+          done();
+        })
+        .req(function(req) {
+          request = req;
+          req.query = {};
+          req.query['oauth_token'] = 'wrong-token';
+          req.query['oauth_verifier'] = 'wrong-verifier';
+          req.session = {};
+          req.session['oauth'] = {};
+          req.session['oauth']['oauth_token'] = 'hh5s93j4hdidpola';
+          req.session['oauth']['oauth_token_secret'] = 'hdhd0244k9j7ao03';
+        })
+        .authenticate();
+    });
+
+    it('should not supply info', function() {
+      expect(info).to.be.undefined;
+    });
+    
+    it('should remove token and token secret from session', function() {
+      expect(request.session['oauth']).to.be.undefined;
+    });
+  });
 
 
   describe('with user authorization URL that contains query parameters', function() {
