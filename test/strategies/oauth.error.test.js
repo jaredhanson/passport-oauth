@@ -3,10 +3,9 @@ var chai = require('chai')
   , InternalOAuthError = require('../../lib/errors/internaloautherror');
 
 
-describe('OAuthStrategy that encounters an error', function() {
+describe('OAuthStrategy', function() {
     
-  describe('while getting access token', function() {
-    
+  describe('that encounters an error obtaining an access token', function() {
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
@@ -19,7 +18,7 @@ describe('OAuthStrategy that encounters an error', function() {
     
     // inject a "mock" oauth instance
     strategy._oauth.getOAuthAccessToken = function(token, tokenSecret, verifier, callback) {
-      callback(new Error('failed to get access token'));
+      callback(new Error('error obtaining access token'));
     }
     
     describe('handling an authorized callback request', function() {
@@ -48,7 +47,7 @@ describe('OAuthStrategy that encounters an error', function() {
       it('should error', function() {
         expect(err).to.be.an.instanceof(InternalOAuthError);
         expect(err.message).to.equal('Failed to obtain access token');
-        expect(err.oauthError.message).to.equal('failed to get access token');
+        expect(err.oauthError.message).to.equal('error obtaining access token');
       });
       
       it('should not remove token and token secret from session', function() {
@@ -59,8 +58,7 @@ describe('OAuthStrategy that encounters an error', function() {
     });
   });
   
-  describe('while getting a request token', function() {
-    
+  describe('that encounters an error obtaining a request token', function() {
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
@@ -73,10 +71,10 @@ describe('OAuthStrategy that encounters an error', function() {
     
     // inject a "mock" oauth instance
     strategy._oauth.getOAuthRequestToken = function(extraParams, callback) {
-      callback(new Error('failed to get request token'));
+      callback(new Error('error obtaining request token'));
     }
     
-    describe('handling an authorized callback request', function() {
+    describe('handling a request to be redirected', function() {
       var request
         , info;
 
@@ -96,7 +94,7 @@ describe('OAuthStrategy that encounters an error', function() {
       it('should error', function() {
         expect(err).to.be.an.instanceof(InternalOAuthError);
         expect(err.message).to.equal('Failed to obtain request token');
-        expect(err.oauthError.message).to.equal('failed to get request token');
+        expect(err.oauthError.message).to.equal('error obtaining request token');
       });
       
       it('should not store token and token secret in session', function() {
@@ -105,8 +103,7 @@ describe('OAuthStrategy that encounters an error', function() {
     });
   });
     
-  describe('while verifying user profile', function() {
-    
+  describe('that encounters an error during verification', function() {
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
