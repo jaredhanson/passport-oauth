@@ -2,9 +2,9 @@ var chai = require('chai')
   , OAuthStrategy = require('../../lib/strategies/oauth');
 
 
-describe('OAuthStrategy with passReqToCallback option', function() {
+describe('OAuthStrategy', function() {
     
-  describe('and standard verify callback', function() {
+  describe('passing request to verify callback', function() {
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
@@ -13,7 +13,9 @@ describe('OAuthStrategy with passReqToCallback option', function() {
         consumerSecret: 'secret',
         passReqToCallback: true
       }, function(req, token, tokenSecret, profile, done) {
-        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00' && Object.keys(profile).length == 0) {
+        if (Object.keys(profile).length !== 0) { return done(null, false); }
+        
+        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00') {
           return done(null, { id: '1234' }, { message: 'Hello', foo: req.headers['x-foo'] });
         }
         return done(null, false);
@@ -74,7 +76,7 @@ describe('OAuthStrategy with passReqToCallback option', function() {
     });
   });
   
-  describe('and params argument in verify callback', function() {
+  describe('passing request to verify callback that accepts params', function() {
     var strategy = new OAuthStrategy({
         requestTokenURL: 'https://www.example.com/oauth/request_token',
         accessTokenURL: 'https://www.example.com/oauth/access_token',
@@ -83,7 +85,9 @@ describe('OAuthStrategy with passReqToCallback option', function() {
         consumerSecret: 'secret',
         passReqToCallback: true
       }, function(req, token, tokenSecret, params, profile, done) {
-        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00' && params.elephant == 'purple' && Object.keys(profile).length == 0) {
+        if (Object.keys(profile).length !== 0) { return done(null, false); }
+        
+        if (token == 'nnch734d00sl2jdk' && tokenSecret == 'pfkkdhi9sl3r4s00' && params.elephant == 'purple') {
           return done(null, { id: '1234' }, { message: 'Hello', foo: req.headers['x-foo'] });
         }
         return done(null, false);
