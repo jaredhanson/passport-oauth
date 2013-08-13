@@ -3,6 +3,14 @@ var InternalOAuthError = require('../../lib/errors/internaloautherror');
 
 describe('InternalOAuthError', function() {
     
+  describe('constructed without a message', function() {
+    var err = new InternalOAuthError();
+    
+    it('should format correctly', function() {
+      expect(err.toString()).to.equal('InternalOAuthError');
+    });
+  });
+    
   describe('constructed with a message', function() {
     var err = new InternalOAuthError('oops');
     

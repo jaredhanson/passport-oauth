@@ -291,7 +291,7 @@ describe('OAuth2Strategy', function() {
   
     it('should error', function() {
       expect(err).to.be.an.instanceof(AuthorizationError)
-      expect(err.message).to.equal('OAuth 2.0 authorization request failed');
+      expect(err.message).to.be.undefined;
       expect(err.code).to.equal('invalid_scope');
       expect(err.uri).to.be.undefined;
       expect(err.status).to.equal(500);
