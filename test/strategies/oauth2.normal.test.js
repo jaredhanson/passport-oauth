@@ -267,7 +267,7 @@ describe('OAuth2Strategy', function() {
         .authenticate();
     });
   
-    it('should supply info', function() {
+    it('should fail with message', function() {
       expect(info).to.not.be.undefined;
       expect(info.message).to.equal('Why oh why?');
     });
@@ -347,6 +347,27 @@ describe('OAuth2Strategy', function() {
       expect(err.message).to.equal('The scope is invalid');
       expect(err.uri).to.equal('http://www.example.com/oauth2/help');
       expect(err.status).to.equal(500);
+    });
+  });
+  
+  describe('handling a return request that fails verification', function() {
+    var info;
+  
+    before(function(done) {
+      chai.passport(strategy)
+        .fail(function(i) {
+          info = i;
+          done();
+        })
+        .req(function(req) {
+          req.query = {};
+          req.query.code = 'wrong-code';
+        })
+        .authenticate();
+    });
+  
+    it('should not supply info', function() {
+      expect(info).to.be.undefined;
     });
   });
   
