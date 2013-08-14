@@ -32,8 +32,8 @@
   ],
   "main": "./lib",
   "dependencies": {
-    "passport-strategy": "1.x.x",
-    "oauth": "0.9.x"
+    "passport-oauth1": "x.x.x",
+    "passport-oauth2": "x.x.x"
   },
   "devDependencies": {
     "mocha": "1.x.x",
