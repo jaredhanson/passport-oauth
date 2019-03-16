@@ -25,6 +25,12 @@
     "url": "http://www.jaredhanson.net/"
   },
   "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
   "main": "./lib",
   "dependencies": {
     "passport-oauth1": "1.x.x",
