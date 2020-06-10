@@ -13,6 +13,16 @@ exists for backwards-compatibility with the 0.1.x line of OAuth-based
 strategies.  As of version 1.x.x, it is encouraged to declare dependencies
 on the module that implements specific version of OAuth in use.
 
+---
+
+<p align="center">
+  <sup>Advertisement</sup>
+  <br>
+  <a href="https://click.linksynergy.com/link?id=D*o7yui4/NM&offerid=507388.380582&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Flearn-oauth-2%2F&u1=1nK7A420G4zc4bUZp1eLf4upep1co3dfyV5nLlKmV">Learn OAuth 2.0 - Get started as an API Security Expert</a><br>Just imagine what could happen to YOUR professional career if you had skills in OAuth > 8500 satisfied students
+</p>
+
+---
+
 ## Install
 
     $ npm install passport-oauth
