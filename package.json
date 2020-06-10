@@ -24,6 +24,7 @@
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
   },
+  "license": "MIT",
   "licenses": [
     {
       "type": "MIT",
@@ -36,13 +37,14 @@
     "passport-oauth2": "1.x.x"
   },
   "devDependencies": {
-    "mocha": "1.x.x",
-    "chai": "1.x.x",
+    "make-node": "0.4.6",
+    "mocha": "2.x.x",
+    "chai": "2.x.x",
     "chai-passport-strategy": "0.1.x"
   },
   "engines": { "node": ">= 0.4.0" },
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+    "test": "make test"
   },
   "testling": {
     "browsers": [
