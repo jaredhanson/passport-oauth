@@ -1,6 +1,6 @@
 {
-  "name": "passport-oauth",
-  "version": "1.0.0",
+  "name": "@myob/passport-oauth",
+  "version": "1.1.0",
   "description": "OAuth 1.0 and 2.0 authentication strategies for Passport.",
   "keywords": [
     "passport",
@@ -33,16 +33,18 @@
   ],
   "main": "./lib",
   "dependencies": {
-    "passport-oauth1": "1.x.x",
+    "@myob/passport-oauth2": "^1.8.0",
     "passport-oauth2": "1.x.x"
   },
   "devDependencies": {
-    "make-node": "0.4.6",
-    "mocha": "2.x.x",
     "chai": "2.x.x",
-    "chai-passport-strategy": "0.1.x"
+    "chai-passport-strategy": "0.1.x",
+    "make-node": "0.4.6",
+    "mocha": "2.x.x"
   },
-  "engines": { "node": ">= 0.4.0" },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
   "scripts": {
     "test": "make test"
   },
@@ -50,7 +52,7 @@
     "browsers": [
       "chrome/latest"
     ],
-    "harness" : "mocha",
+    "harness": "mocha",
     "files": [
       "test/bootstrap/testling.js",
       "test/*.test.js",
