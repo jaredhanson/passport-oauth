@@ -25,7 +25,11 @@ on the module that implements specific version of OAuth in use.
 
 ## Install
 
-    $ npm install passport-oauth
+```npm install @myob/passport-oauth```
+
+## Publish package to cloudsmit
+Login to cloudsmith
+```npm publish --access public```
 
 ## Tests
 
