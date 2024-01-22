@@ -34,7 +34,7 @@
   "main": "./lib",
   "dependencies": {
     "@myob/passport-oauth2": "^1.8.0",
-    "passport-oauth2": "1.x.x"
+    "passport-oauth1": "1.x.x"
   },
   "devDependencies": {
     "chai": "2.x.x",
